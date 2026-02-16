@@ -1,0 +1,52 @@
+﻿@import "tailwindcss";
+
+:root {
+  --background: #fdf2e8;
+  --foreground: #2f3a4c;
+  --card: #ffffff;
+  --muted: #7e879c;
+  --muted-foreground: #a2a9ba;
+  --border: #f2ddc8;
+  --brand-50: #fff2e0;
+  --brand-100: #ffe5c2;
+  --brand-300: #f7c07c;
+  --brand-500: #f3a74a;
+  --brand-600: #ea9838;
+  --brand-700: #d9822c;
+  --shadow-soft: 0 18px 40px rgba(226, 167, 94, 0.18);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-300: var(--brand-300);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --shadow-soft: var(--shadow-soft);
+  --font-sans: var(--font-primary);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-primary), "Helvetica Neue", sans-serif;
+  }
+}
+
+@layer utilities {
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+}
