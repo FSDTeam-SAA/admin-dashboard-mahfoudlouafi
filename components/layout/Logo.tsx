@@ -1,16 +1,17 @@
 ﻿import { CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 export function Logo({ className }: { className?: string }) {
   return (
     <div className={cn("flex flex-col", className)}>
-      <div className="flex items-center gap-2">
-        <div className="text-3xl font-semibold text-foreground">
-          Tull<span className="text-brand-600">y</span>
-        </div>
-        <CheckCircle2 className="h-6 w-6 text-brand-600" />
-      </div>
-      <span className="text-xs text-muted">Smart Student Tasks</span>
+      <Image
+        src="/logo.png"
+        alt="Logo"
+        width={800}
+        height={800}
+        className="h-[56px] w-[142px]"
+      />
     </div>
   );
 }

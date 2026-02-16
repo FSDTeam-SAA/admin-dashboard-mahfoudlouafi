@@ -73,6 +73,34 @@ export async function fetchPlanSummary() {
   return data?.data;
 }
 
+export async function createPlan(payload: {
+  name: string;
+  priceMonth: number;
+  priceYear: number;
+  taskLimitYear: number;
+}) {
+  const { data } = await api.post("/plans", payload);
+  return data?.data;
+}
+
+export async function updatePlan(
+  id: string,
+  payload: Partial<{
+    name: string;
+    priceMonth: number;
+    priceYear: number;
+    taskLimitYear: number;
+  }>
+) {
+  const { data } = await api.patch(`/plans/${id}`, payload);
+  return data?.data;
+}
+
+export async function deletePlan(id: string) {
+  const { data } = await api.delete(`/plans/${id}`);
+  return data?.data;
+}
+
 export async function fetchStudents(params: { page: number; limit: number }) {
   const { data } = await api.get("/admin/students", { params });
   return data?.data;
