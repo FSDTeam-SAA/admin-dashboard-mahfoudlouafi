@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { resetPassword, requestForgotPassword } from "@/lib/api";
+import { requestForgotPassword, verifyResetOtp } from "@/lib/api";
 import { getErrorMessage } from "@/lib/error";
 
 function OtpInputs({ value, onChange }: { value: string; onChange: (v: string) => void }) {
@@ -50,14 +50,13 @@ export default function VerifyOtpPage() {
   const [seconds, setSeconds] = useState(43);
 
   const email = typeof window !== "undefined" ? sessionStorage.getItem("resetEmail") : null;
-  const password = typeof window !== "undefined" ? sessionStorage.getItem("resetPassword") : null;
 
   useEffect(() => {
-    if (!email || !password) {
+    if (!email) {
       toast.error("Please start the reset flow again.");
       router.push("/forgot-password");
     }
-  }, [email, password, router]);
+  }, [email, router]);
 
   useEffect(() => {
     if (seconds === 0) return;
@@ -67,14 +66,13 @@ export default function VerifyOtpPage() {
 
   const verifyMutation = useMutation({
     mutationFn: async () => {
-      if (!email || !password) throw new Error("Missing reset data");
-      return resetPassword({ email, otp: code, password });
+      if (!email) throw new Error("Missing reset data");
+      return verifyResetOtp({ email, otp: code });
     },
     onSuccess: () => {
-      toast.success("Password updated successfully");
-      sessionStorage.removeItem("resetEmail");
-      sessionStorage.removeItem("resetPassword");
-      router.push("/login");
+      toast.success("Code verified. Set your new password.");
+      sessionStorage.setItem("resetOtp", code);
+      router.push("/reset-password");
     },
     onError: (error: unknown) => {
       toast.error(getErrorMessage(error, "Invalid code"));
@@ -96,7 +94,7 @@ export default function VerifyOtpPage() {
   });
 
   return (
-    <div className="w-full max-w-2xl rounded-[32px] bg-white px-10 py-12 shadow-soft text-center">
+    <div className="">
       <h1 className="text-3xl font-semibold text-brand-600">Enter code</h1>
       <p className="mt-2 text-sm text-muted">
         Please check your Email for a message with your code. Your code is 6 numbers long.

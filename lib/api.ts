@@ -53,6 +53,14 @@ export async function resetPassword(payload: { email: string; otp: string; passw
   return data;
 }
 
+export async function verifyResetOtp(payload: { email: string; otp: string }) {
+  const { data } = await publicApi.post("/auth/verify-reset-otp", {
+    email: payload.email,
+    otp: payload.otp
+  });
+  return data;
+}
+
 export async function changePassword(payload: { oldPassword: string; newPassword: string }) {
   const { data } = await api.post("/auth/change-password", payload);
   return data;

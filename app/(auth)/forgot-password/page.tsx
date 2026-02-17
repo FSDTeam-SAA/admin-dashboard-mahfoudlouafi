@@ -12,14 +12,11 @@ import { getErrorMessage } from "@/lib/error";
 export default function ForgotPasswordPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
 
   const mutation = useMutation({
     mutationFn: (payload: string) => requestForgotPassword(payload),
     onSuccess: () => {
       sessionStorage.setItem("resetEmail", email);
-      sessionStorage.setItem("resetPassword", password);
       toast.success("Verification code sent to your email");
       router.push("/verify-otp");
     },
@@ -30,15 +27,11 @@ export default function ForgotPasswordPage() {
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (password !== confirm) {
-      toast.error("Passwords do not match");
-      return;
-    }
     mutation.mutate(email);
   };
 
   return (
-    <div className="w-full max-w-2xl rounded-[32px] bg-white px-10 py-12 shadow-soft">
+    <div className="">
       <div className="text-center">
         <h1 className="text-3xl font-semibold text-brand-600">Forgot password</h1>
         <p className="mt-2 text-sm text-muted">
@@ -54,26 +47,6 @@ export default function ForgotPasswordPage() {
             placeholder="you@gmail.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-muted">New password</label>
-          <Input
-            type="password"
-            placeholder="••••••"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-muted">Confirm password</label>
-          <Input
-            type="password"
-            placeholder="••••••"
-            value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
             required
           />
         </div>
