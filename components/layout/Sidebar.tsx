@@ -18,7 +18,7 @@ import { signOut } from "next-auth/react";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutGrid },
-  { href: "/subscription-plans", label: "Subscription Plan", icon: Crown },
+  // { href: "/subscription-plans", label: "Subscription Plan", icon: Crown },
   { href: "/students", label: "Students List", icon: Users },
   { href: "/reports", label: "Report & Analysis", icon: LineChart },
   { href: "/settings", label: "Settings", icon: Settings }
