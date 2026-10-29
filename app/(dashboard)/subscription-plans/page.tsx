@@ -1,6 +1,6 @@
-﻿"use client";
+"use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type Dispatch, type SetStateAction } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createPlan, deletePlan, fetchPlanSummary, updatePlan } from "@/lib/api";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,14 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Modal } from "@/components/ui/modal";
-import { formatNumberShort, formatMoney } from "@/lib/format";
+import { formatNumberShort } from "@/lib/format";
 import { toast } from "sonner";
 import { 
   DollarSign, 
   Gem, 
   Sparkles, 
   Trash2, 
-  Pencil, 
   Plus,
   AlertCircle 
 } from "lucide-react";
@@ -26,6 +25,20 @@ type Plan = {
   priceMonth: number;
   priceYear?: number;
   taskLimitYear: number;
+};
+
+type PlanFormValues = {
+  name: string;
+  priceMonth: string;
+  priceYear: string;
+  taskLimitYear: string;
+};
+
+type PlanFormProps = {
+  form: PlanFormValues;
+  setForm: Dispatch<SetStateAction<PlanFormValues>>;
+  onSubmit: () => void;
+  isPending: boolean;
 };
 
 export default function SubscriptionPlansPage() {
@@ -268,7 +281,7 @@ function SummaryCard({ icon, label, value }: { icon: React.ReactNode, label: str
   );
 }
 
-function PlanForm({ form, setForm, onSubmit, isPending }: any) {
+function PlanForm({ form, setForm, onSubmit, isPending }: PlanFormProps) {
   return (
     <div className="space-y-5 py-4">
       <div className="space-y-2">
@@ -276,7 +289,7 @@ function PlanForm({ form, setForm, onSubmit, isPending }: any) {
         <Input 
           className="h-12 rounded-xl"
           value={form.name} 
-          onChange={(e) => setForm((p: any) => ({ ...p, name: e.target.value }))} 
+          onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
           placeholder="e.g. Premium Plus"
         />
       </div>
@@ -287,7 +300,7 @@ function PlanForm({ form, setForm, onSubmit, isPending }: any) {
             type="number" 
             className="h-12 rounded-xl"
             value={form.priceMonth} 
-            onChange={(e) => setForm((p: any) => ({ ...p, priceMonth: e.target.value }))} 
+            onChange={(e) => setForm((p) => ({ ...p, priceMonth: e.target.value }))}
           />
         </div>
         <div className="space-y-2">
@@ -296,7 +309,7 @@ function PlanForm({ form, setForm, onSubmit, isPending }: any) {
             type="number" 
             className="h-12 rounded-xl"
             value={form.priceYear} 
-            onChange={(e) => setForm((p: any) => ({ ...p, priceYear: e.target.value }))} 
+            onChange={(e) => setForm((p) => ({ ...p, priceYear: e.target.value }))}
           />
         </div>
       </div>
@@ -306,7 +319,7 @@ function PlanForm({ form, setForm, onSubmit, isPending }: any) {
           type="number" 
           className="h-12 rounded-xl"
           value={form.taskLimitYear} 
-          onChange={(e) => setForm((p: any) => ({ ...p, taskLimitYear: e.target.value }))} 
+          onChange={(e) => setForm((p) => ({ ...p, taskLimitYear: e.target.value }))}
         />
       </div>
       <Button 

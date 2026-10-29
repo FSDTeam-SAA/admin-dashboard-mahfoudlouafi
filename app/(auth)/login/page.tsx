@@ -16,20 +16,25 @@ export default function LoginPage() {
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true);
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirect: false
-    });
-    setLoading(false);
+    try {
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false
+      });
 
-    if (result?.error) {
-      toast.error("Invalid email or password");
-      return;
+      if (!result?.ok || result.error) {
+        toast.error("Invalid email or password");
+        return;
+      }
+
+      toast.success("Welcome back!");
+      router.push("/dashboard");
+    } catch {
+      toast.error("Unable to sign in. Please check your connection and try again.");
+    } finally {
+      setLoading(false);
     }
-
-    toast.success("Welcome back!");
-    router.push("/dashboard");
   };
 
   return (

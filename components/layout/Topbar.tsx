@@ -1,6 +1,5 @@
 ﻿"use client";
 
-import { Bell } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { Avatar } from "@/components/ui/avatar";
 

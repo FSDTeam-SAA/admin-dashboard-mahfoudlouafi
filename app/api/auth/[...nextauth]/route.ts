@@ -17,7 +17,8 @@ async function loginRequest(payload: { email: string; password: string }) {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(payload),
-    cache: "no-store"
+    cache: "no-store",
+    signal: AbortSignal.timeout(15_000)
   });
 
   if (!response.ok) {
